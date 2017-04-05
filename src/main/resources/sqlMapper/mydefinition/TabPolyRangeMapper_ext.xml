@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabPolyRangeMapper" >
+<select id="selectRange" resultMap="BaseResultMap" parameterType="java.util.ArrayList">
+select
+    a.*
+    from tab_ploygonrange a,tab_device_warning b WHERE a.POLYGONID=b.POLYGONID 
+and b.DEVICEID in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+     	#{item.deviceid} 
+     </foreach>
+GROUP BY a.POLYGONID
+</select>
+</mapper>

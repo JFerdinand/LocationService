@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabDeviceTypeMapper" >
+<select id="selecttablename" resultMap="BaseResultMap" parameterType="java.util.ArrayList" >
+ select
+    <include refid="Base_Column_List" />
+     from tab_devicetype where typeid in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+     	#{item} 
+     </foreach> 
+ 
+</select>
+
+<select id="selecttabbigname" resultMap="BaseResultMap" parameterType="String" >
+ select
+    <include refid="Base_Column_List" />
+     from tab_devicetype where typeid in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+     	#{item} 
+     </foreach> 
+ 
+</select>
+<select id="selectAll" resultMap="BaseResultMap"  >
+ select
+    <include refid="Base_Column_List" />
+     from tab_devicetype 
+</select>
+</mapper>

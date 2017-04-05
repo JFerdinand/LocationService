@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabFieldMapper" >
+<insert id="insertbatch" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="fieldid">
+    insert into tab_field (FIELD, FIELDTYPE, TYPEID
+      ) values
+      <foreach collection="list" item="item" index="index" separator="," >
+ (#{item.field,jdbcType=CHAR}, #{item.fieldtype,jdbcType=CHAR}, #{item.typeid,jdbcType=INTEGER}
+      )
+      </foreach>
+</insert>
+<!--从数据库读出需要显示的字段内容  -->
+<select id="selectfield" resultType="map" parameterType="java.util.ArrayList" >
+ select
+    <include refid="Base_Column_List" />
+     from tab_field where typeid in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+     	#{item} 
+     </foreach> 
+ and ISSHOW = 1;
+</select>
+<!-- 查询一条字段，轨迹功能 -->
+<select id="selectfieldone" resultType="map" parameterType="java.lang.Integer" >
+ select
+    <include refid="Base_Column_List" />
+     from tab_field where typeid = #{typeid,jdbcType=INTEGER}
+ 
+</select>
+</mapper>

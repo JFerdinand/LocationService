@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabCircleRangeMapper" >
+<select id="selectRange" resultMap="BaseResultMap" parameterType="java.util.ArrayList">
+select
+    a.*
+    from tab_circlerange a,tab_device_warning b WHERE a.CIRCLEID=b.CIRCLEID 
+and b.DEVICEID in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+     	#{item.deviceid} 
+     </foreach>
+GROUP BY a.CIRCLEID
+</select>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabUserInforMapper" >
+  <!-- 根据用户名显示个人中心 -->
+   <select id="selectByUserName" resultType="Map" parameterType="String" >
+   select *
+   FROM tab_user a
+   JOIN tab_userinfor b on b.USERID = a.USERID
+   WHERE a.USERNAME=#{userName}
+  </select>
+  
+ <!-- 根据电话号码显示个人中 -->
+ <select id="selectByUserPhone" resultType="Map" parameterType="String">
+  select *
+  FROM tab_user a
+  JOIN tab_userinfor b on b.USERID= a.USERID
+  WHERE b.USERPHONE=#{userPhone}
+ </select>
+  
+  <!-- 根据用户ID查找手机号 -->
+ <select id="selectToUserId"  resultType="Map" parameterType="java.lang.Long" >
+    select a.USERPHONE,b.USERPWD
+    FROM  tab_userinfor a
+    JOIN tab_user b ON a.USERID =b.USERID
+    where a.USERID = #{userid}
+ </select>
+  <!-- 根据手机号查找手机号 -->
+ <select id="selectToUserphone1"  resultType="Map" parameterType="String" >
+    select USERPHONE
+    FROM  tab_userinfor
+    where USERPHONE=#{userPhone}
+ </select>
+ <!-- 根据邮箱码显示个人中 -->
+ <select id="selectByUserEmail" resultType="Map" parameterType="String">
+  select *
+  FROM tab_user a
+  JOIN tab_userinfor b on b.USERID= a.USERID
+  WHERE b.USEREMAIL=#{newEmail}
+ </select>
+ 
+ <!-- 根据手机号修改密码 -->
+   <update id="updatePassWordPhone" parameterType="java.util.HashMap" >
+    update
+    tab_user a
+    JOIN tab_userinfor b  on a.USERID=b.USERID
+    set a.USERPWD = #{passWord}
+    where b.USERPHONE = #{userPhone}
+  </update>
+  
+<!-- 根据用户名修改密码 -->
+ <update id="updatePassWord" parameterType="String" >
+   update
+    tab_user a
+    set a.USERPWD=#{userPwd}
+    where a.USERNAME = #{userName}
+  </update> 
+  
+    <!-- 根据用户ID修改手机号 -->
+ <update id="updateToUserId"  parameterType="java.util.HashMap" >
+    update
+    tab_userinfor
+    set  USERPHONE = #{newPhone}
+    where USERID = #{userid}
+ </update>
+ 
+  <!-- 根据邮箱修改新的邮箱 -->
+   <update id="updateByOldEmail" parameterType="java.util.HashMap" >
+    update
+    tab_userinfor
+    set  USEREMAIL = #{newEmail}
+    where USEREMAIL = #{oldEmail}
+  </update>
+</mapper>

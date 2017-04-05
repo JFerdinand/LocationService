@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabCompanyMapper" >
+ <select id="selectToCompanyId" resultType="Map" parameterType="java.lang.Integer" >
+SELECT  DISTINCT b.USERNAME,c.rolename,b.USERID,c.roleid
+FROM tab_user_role a 
+JOIN tab_user b ON a.userid=b.USERID
+JOIN tab_role c ON c.roleid =a.roleid
+JOIN tab_user_device d on d.USERID=b.USERID
+WHERE d.COMPANYID=#{compamyid}
+ </select>
+  <!-- 根据用户名修改用户的权限 -->
+ <!--  
+ <update id="updateTouserName"  parameterType="java.lang.String" >
+ update
+    tab_user a
+    set a.AUTHORITY=#{authority}
+    where a.USERNAME =#{userName}
+ </update>
+ -->
+ <!-- 根据用户id修改用户的权限 -->
+ <update id="updateToUserId"  parameterType="HashMap" >
+UPDATE 
+   tab_user_role a 
+   set a.roleid=#{roleid}
+   WHERE a.userid=#{userid}
+ </update>
+</mapper>

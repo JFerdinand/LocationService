@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabDeviceMapper" >
+
+<select id="selectAll" resultMap="BaseResultMap" >
+select 
+    <include refid="Base_Column_List" />
+    from tab_device 
+</select>
+<select id="selectTypeid" resultType="Integer" parameterType="String">
+select 
+    TYPEID
+    from tab_device 
+    where DEVICEID=#{deviceid}
+</select>
+
+<select id="selectId" resultType="String">
+SELECT deviceid 
+FROM tab_device WHERE DNAME = #{dname,jdbcType=CHAR}
+</select>
+<select id="selectdeviceinfo" resultMap="BaseResultMap" parameterType="java.util.ArrayList" >
+ select
+    <include refid="Base_Column_List" />
+     from tab_device where deviceid in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+     	#{item.deviceid} 
+     </foreach> 
+ 
+</select>
+<!-- 查询设备信息 -->
+<select id="selectBycompanyid" resultType="Map" parameterType="Map" >
+SELECT	m.DEVICEID,m.DNAME,m.DINFOR,m.TYPEID,m.TYPENAME,IFNULL(n.mentid,n.DEVELOPID) mentid,IFNULL(n.ment,n.DEVELOPMENT) ment,
+IF(ISNULL(n.mentid),n.mentid,n.DEVELOPID) develid,IF(ISNULL(n.ment),n.ment,n.DEVELOPMENT) develname,n.COMPANYID
+FROM (select a.DEVICEID,a.DNAME,a.DINFOR,b.TYPENAME ,a.DEVELOPID,a.TYPEID
+			FROM tab_device a,tab_devicetype b 
+			where a.TYPEID=b.TYPEID) m 
+JOIN 
+		 (SELECT  e.DEVELOPID mentid,e.DEVELOPMENT ment,a.DEVELOPID,a.DEVELOPMENT,a.COMPANYID
+			FROM (SELECT b.DEVELOPID,b.DEVELOPMENT FROM tab_development b WHERE ISNULL(b.PARENTID)) e right join tab_development a
+			on a.PARENTID=e.DEVELOPID) n
+on m.DEVELOPID=n.DEVELOPID  and n.COMPANYID=#{companyid} ORDER BY ment,develname,m.DNAME 
+</select>
+<!-- 通过设备名模糊查找设备信息 -->
+<select id="selectByDname" resultType="Map" parameterType="Map">
+SELECT	m.DEVICEID,m.DNAME,m.DINFOR,m.TYPEID,m.TYPENAME,IFNULL(n.mentid,n.DEVELOPID) mentid,IFNULL(n.ment,n.DEVELOPMENT) ment,
+IF(ISNULL(n.mentid),n.mentid,n.DEVELOPID) develid,IF(ISNULL(n.ment),n.ment,n.DEVELOPMENT) develname,n.COMPANYID
+FROM (select a.DEVICEID,a.DNAME,a.DINFOR,b.TYPENAME ,a.DEVELOPID,a.TYPEID
+			FROM tab_device a,tab_devicetype b 
+			where a.TYPEID=b.TYPEID) m 
+JOIN 
+		 (SELECT  e.DEVELOPID mentid,e.DEVELOPMENT ment,a.DEVELOPID,a.DEVELOPMENT,a.COMPANYID
+			FROM (SELECT b.DEVELOPID,b.DEVELOPMENT FROM tab_development b WHERE ISNULL(b.PARENTID)) e right join tab_development a
+			on a.PARENTID=e.DEVELOPID) n
+on m.DEVELOPID=n.DEVELOPID  and n.COMPANYID=#{companyid} and m.DNAME like ${dname}
+</select>
+
+<select id="selectByDevelopid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+select 
+    <include refid="Base_Column_List" />
+    from tab_device 
+    where DEVELOPID = #{developid}
+</select>
+  <delete id="deleteByDevelopid" parameterType="java.lang.Integer" >
+ 
+    delete from tab_device
+    where DEVELOPID = #{developid}
+  </delete>
+  <select id="selectdevice" resultMap="BaseResultMap"  parameterType="com.lingtu.entity.TabDevice" >
+select 
+    <include refid="Base_Column_List" />
+    from tab_device 
+    where DNAME=#{dname} and TYPEID=#{typeid} and DEVELOPID=#{developid}
+</select>
+</mapper>

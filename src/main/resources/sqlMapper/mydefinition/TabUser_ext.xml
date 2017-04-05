@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabUserMapper" >
+  <!-- 通过用户名查询 -->
+  <select id="selectByUsername" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_user
+    where USERNAME = #{username}
+  </select>
+  <!-- 查询用户id -->
+  <select id="selectUserid" resultMap="BaseResultMap" parameterType="String" >
+    select 
+    USERID
+    from tab_user
+    where USERNAME = #{userid}
+  </select>
+</mapper>

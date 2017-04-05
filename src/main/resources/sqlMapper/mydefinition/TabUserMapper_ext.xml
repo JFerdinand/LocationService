@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabUserMapper" >
+  <!-- 根据用户名登录 (前端JSP专用)-->
+   <select id="selectUserName" resultType="Map" parameterType="String" >
+    SELECT a.USERPWD,a.USERNAME,a.USERID
+    FROM tab_user a   
+    WHERE a.USERNAME=#{userName}
+  </select>
+  
+   <!-- 根据用户Id返回数据存储在session (前端JSP专用)-->
+   <select id="selectUserName2" resultType="Map" parameterType="java.lang.Long" >
+    SELECT a.USERID,b.COMPANYID,a.USERNAME,c.roleid
+    FROM tab_user a   
+    JOIN tab_user_device b  ON b.USERID = a.USERID
+    JOIN tab_user_role c ON a.USERID=c.userid
+    WHERE a.USERID=#{userid} GROUP BY b.COMPANYID 
+  </select>
+  
+     <!-- 根据用户Id返回数据存储在session (前端JSP专用)-->
+  <select id="selectUserName3" resultType="Map" parameterType="java.lang.Long" >
+    SELECT  DISTINCT e.privilegeid
+    FROM tab_user_role a 
+    JOIN tab_user b ON a.userid=b.USERID
+    JOIN tab_role c ON c.roleid =a.roleid
+    JOIN tab_role_privilege d ON d.roleid =c.roleid
+    JOIN tab_privilege e on e.privilegeid=d.privilegeid
+    WHERE b.USERID=#{userid}
+  </select>
+  <!-- 根据用户id查找设备id ,只能查看到自己的设备iD-->
+  <select id="selectByDeviced" resultType="Map" parameterType="java.lang.Long">
+   SELECT a.DEVICEID
+   FROM tab_user_device a
+   WHERE a.USERID=#{userid}
+  </select>
+  
+  <!-- 根据公司id查找设备id,可以查看本公司所有的员工设备-->
+  <select id="selectByCompanyID" resultType="Map" parameterType="Integer">
+   SELECT a.DEVICEID
+   FROM tab_user_device a
+   WHERE a.COMPANYID=#{companyid} and a.DEVICEID !=''
+  </select>
+  
+  <!-- 根据电话号码登录 (JSP专用)-->
+ <select id="selectUserPhone" resultType="Map" parameterType="String">
+  SELECT a.USERID,a.USERPWD,c.USERPHONE,a.USERNAME
+  FROM tab_user a
+  JOIN tab_userinfor c ON c.USERID=a.USERID
+  WHERE c.USERPHONE=#{userPhone} 
+ </select>
+ 
+ 
+ <!-- 根据手机号修改密码 -->
+   <update id="updatePassWordPhone" parameterType="Map" >
+    update
+    tab_user a
+    JOIN tab_userinfor b  on a.USERID=b.USERID
+    set  a.USERPWD = #{userPwd}
+    where b.USERPHONE = #{userPhone}
+  </update>
+  
+<!-- 根据用户名修改密码 -->
+ <update id="updatePassWord"  parameterType="com.lingtu.entity.TabUser" >
+    update
+    tab_user 
+    set USERPWD=#{userpwd}
+    where USERNAME =#{userName}
+  </update>
+
+ 
+<!-- 判断用户名登录是否存在 (Android专用)-->
+ <select id="selectNameToPhoneAndroid" resultType="Map"  parameterType="String">  
+   SELECT c.USERPHONE,a.USERNAME
+  FROM tab_user a 
+  JOIN tab_userinfor c ON c.USERID=a.USERID
+  WHERE a.USERNAME=#{userName}
+ </select>
+ 
+   
+ <!-- 根据电话号码登录 (Android专用)-->
+ <select id="selectUserPhoneAndroid" resultType="Map" parameterType="String">  
+  SELECT a.USERID,c.USERPHONE, a.USERPWD,b.COMPANYID,d.roleid
+  FROM tab_user a 
+  JOIN tab_userinfor c ON c.USERID=a.USERID
+  JOIN  tab_user_device b ON a.USERID=b.USERID
+   JOIN tab_user_role d ON d.userid =a.USERID
+  WHERE c.USERPHONE=#{userPhone} GROUP BY b.COMPANYID 
+ </select>
+ 
+ <!-- 根据用户名登录(Android专用)-->
+ <select id="selectToNameAndroid" resultType="Map" parameterType="String">
+  select a.USERPWD ,a.USERNAME,a.USERID ,b.COMPANYID,c.roleid
+  FROM tab_user a 
+  JOIN tab_user_device b ON b.USERID =a.USERID
+  JOIN tab_user_role c ON c.userid =a.USERID
+  WHERE a.USERNAME=#{userName} GROUP BY b.COMPANYID 
+ </select>
+ <!-- Android端账号登录和手机登陆通用 -->
+ <select id="selectToUseridRolied" resultType="Map" parameterType="java.lang.Integer">
+ SELECT a.DEVICEID,b.DNAME
+ FROM tab_user_device a 
+ JOIN tab_device b ON a.DEVICEID = b.DEVICEID
+ JOIN tab_user_role  c ON c.userid =a.USERID
+ WHERE c.roleid=3 AND a.COMPANYID=#{companyid}
+ </select>
+ 
+  <!-- Android判断用户是否有设备 -->
+ <select id="selectToUseridDeviceId" resultType="String" parameterType="java.lang.Long">
+ SELECT a.DEVICEID
+ FROM tab_user_device a
+ WHERE a.USERID=#{userid}
+ </select>
+ 
+</mapper>

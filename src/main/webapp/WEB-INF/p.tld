@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+	version="2.1">
+
+	<tlib-version>1.2</tlib-version>
+	<short-name>p</short-name>
+	<uri>http://java.sun.com/jsp/jstl/privilege</uri>
+
+
+
+	<tag>
+		<name>privilege</name>
+		<tag-class>com.lingtu.tag.PrivilegeTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>target</name>
+			<required>yes</required>
+		</attribute>
+	</tag>
+
+</taglib>

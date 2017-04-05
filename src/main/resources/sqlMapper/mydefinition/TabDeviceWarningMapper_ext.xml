@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabDeviceWarningMapper" >
+  
+  <select id="selectByDeviceid" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from tab_device_warning
+    where DEVICEID = #{deviceid}
+  </select> 
+  <delete id="deleteByDeviceid" parameterType="java.lang.String" >
+    delete from tab_device_warning
+    where DEVICEID = #{deviceid}
+  </delete>
+  <!-- jiangmingjun -->
+  
+</mapper>

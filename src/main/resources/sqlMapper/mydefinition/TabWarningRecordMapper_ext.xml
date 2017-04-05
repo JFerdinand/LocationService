@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabWarningRecordMapper" >
+  <!--jiangmingjun  -->
+  <!-- 查询报警记录 -->
+  <select id="selectWarningRecord" resultType="map" parameterType="java.util.ArrayList" >
+ select
+    b.*,a.DOWNLIMET,a.WARNINGNAME,a.UPLIMIT
+     from tab_numwarning a,tab_warningrecord b where b.DEVICEID in
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+     	#{item.deviceid} 
+     </foreach> 
+     and a.NUMID=b.NUMID
+</select>
+
+	<delete id="deleteByDeviceid" parameterType="java.lang.String" >
+    delete from tab_warningrecord
+    where DEVICEID = #{deviceid}
+  </delete>
+</mapper>

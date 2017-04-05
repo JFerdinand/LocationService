@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabDevelopmentMapper" >
+<select id="selectAll" resultType="com.lingtu.bean.VOEDevelopment" parameterType="java.lang.Integer">
+select 
+    <include refid="Base_Column_List" />
+    from tab_development where companyid= #{COMPANYID,jdbcType=INTEGER}
+</select>
+<select id="select" resultType="com.lingtu.bean.VOELevel" parameterType="java.lang.Integer">
+select 
+    <include refid="Base_Column_List" />
+    from tab_development where companyid= #{COMPANYID,jdbcType=INTEGER}
+</select>
+</mapper>

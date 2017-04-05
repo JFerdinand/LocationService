@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lingtu.entity.mapper.TabDevelopmentMapper" >
+  
+  <select id="selectTabDevelopment" resultMap="BaseResultMap" parameterType="Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from tab_development
+    where COMPANYID=#{companyid} and ISNULL(PARENTID) 
+  </select>
+  
+  <select id="selectDevelopmentCount" resultType="Integer" parameterType="Integer">
+    select count(COMPANYID)
+    from tab_development
+    where PARENTID=#{developid}
+  </select>
+  <select id="selectDevelopmentSubordinate" resultMap="BaseResultMap" parameterType="Integer">
+    select 
+    <include refid="Base_Column_List" />
+    from tab_development
+    where PARENTID=#{developid} 
+  </select>
+  
+   <select id="selectbyDevelopment" resultMap="BaseResultMap" parameterType="Map">
+    select 
+    <include refid="Base_Column_List" />
+    from tab_development
+    where PARENTID=#{developid} and DEVELOPMENT like ${development}
+  </select>
+  <select id="selectDevelopidByD" resultMap="BaseResultMap" parameterType="com.lingtu.entity.TabDevelopment">
+    select 
+	<include refid="Base_Column_List" />
+    from tab_development
+    where  DEVELOPMENT=#{development} and ISNULL(PARENTID) and COMPANYID=#{companyid}
+  </select>
+  <select id="selectDevelopidByDAndP" resultMap="BaseResultMap" parameterType="com.lingtu.entity.TabDevelopment">
+    select 
+	<include refid="Base_Column_List" />
+    from tab_development
+    where  DEVELOPMENT=#{development} and PARENTID=#{parentid} and COMPANYID=#{companyid}
+  </select>
+</mapper>
