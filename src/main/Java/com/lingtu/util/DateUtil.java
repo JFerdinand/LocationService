@@ -104,7 +104,7 @@ public class DateUtil {
 	 * 
 	 * @param date
 	 * @return
-	 * @throws BusinessException
+	 * @throws
 	 */
 	public static Date transferDate(String date) throws Exception {
 		if (date == null || date.length() < 1)
@@ -695,7 +695,7 @@ public class DateUtil {
 	
 	/**
 	 * 获取距离指定时间i天的时间,i为负数为前i天，i为正数为后i天
-	 * @param data
+	 * @param date
 	 * @param i
 	 * @return
 	 */

@@ -31,7 +31,7 @@ public class RegisterService extends BaseService {
 	}
 	/**
 	 * 查询用户名是否存在
-	 * @param userName	用户名
+	 * @param
 	 * @return		0 表示用户名不存在，1 表示用户名已存在
 	 */
 	public int selectUsername(String username){
@@ -44,7 +44,7 @@ public class RegisterService extends BaseService {
 	}
 	/**
 	 * 查询邮箱是否已注册
-	 * @param userEmail	用户邮箱账号
+	 * @param useremail	用户邮箱账号
 	 * @return		0 表示邮箱未注册，1 表示邮箱已注册	
 	 */
 	public int selectEmail(String useremail){
@@ -57,7 +57,7 @@ public class RegisterService extends BaseService {
 	}
 	/**
 	 * 查询手机号是否已注册
-	 * @param userPhone	用户手机号
+	 * @param userphone	用户手机号
 	 * @return	0 表示手机号未注册，1 表示手机号已注册	
 	 */
 	public int selectPhone(String userphone){
@@ -82,7 +82,7 @@ public class RegisterService extends BaseService {
 	/**
 	 * 对手机端用户注册信息进行验证，通过验证，添加到数据库
 	 * 						  未通过验证，返回错误信息
-	 * @param user	用户信息
+	 * @param tabUser	用户信息
 	 * @param code	验证码
 	 * @param code1	用户填写的验证码
 	 * @return		返回验证结果
